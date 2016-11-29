@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: sqlmestre
-      MYSQL_DATABASE: bioextratus
+      MYSQL_DATABASE: -------
       MYSQL_USER: root
       MYSQL_PASSWORD: sqlmestre
   web:

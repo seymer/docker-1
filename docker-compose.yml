@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: sqlmestre
-      MYSQL_DATABASE: bioextratus
+      MYSQL_DATABASE: -------
       MYSQL_USER: root
       MYSQL_PASSWORD: sqlmestre
   web:
@@ -16,10 +16,11 @@ services:
     image: webdevops/php-nginx:debian-9
     links:
       - db
-    # ports:
-    #   - "8000:80"
-    # volumes:
-    #   - "/var/www/:/var/www/"
+    ports:
+      - "8000:80"
+    volumes:
+      - "/var/www/:/var/www/"
+      - "./.data/web/opt/docker/etc/php:/opt/docker/etc/php"
     restart: always
     environment:
-      - WEB_DOCUMENT_ROOT="/home/maycon/web/"
+      - WEB_DOCUMENT_ROOT=/var/www
