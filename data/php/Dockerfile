@@ -5,7 +5,8 @@
 FROM debian:latest
 
 RUN apt-get update \
-	&& apt-get install build-essential \
+	&& apt-get install \
+        build-essential \
 		wget \
 		aptitude \
 		nano \
@@ -41,111 +42,9 @@ RUN mkdir ~/src \
 		cp /opt/php-7.1/etc/php-fpm.d/www.conf.default /opt/php-7.1/etc/php-fpm.d/www.conf \
 	&& sed -i '17s/;*//' /opt/php-7.1/etc/php-fpm.conf \
 	&& sed -i '24s/;*//' /opt/php-7.1/etc/php-fpm.conf \
-	&& sed -i '36s/9000*/8999/' /opt/php-7.1/etc/php-fpm.d/www.conf \
+	&& sed -i '36s/9000*/8999/' /opt/php-7.1/etc/php-fpm.d/www.conf
 
-RUN tee /etc/init.d/php-7.1-fpm <<- EOF
-#! /bin/sh
-### BEGIN INIT INFO
-# Provides:          php-7.1-fpm
-# Required-Start:    $all
-# Required-Stop:     $all
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: starts php-7.1-fpm
-# Description:       starts the PHP FastCGI Process Manager daemon
-### END INIT INFO
-php_fpm_BIN=/opt/php-7.1/sbin/php-fpm
-php_fpm_CONF=/opt/php-7.1/etc/php-fpm.conf
-php_fpm_PID=/opt/php-7.1/var/run/php-fpm.pid
-php_opts="--fpm-config $php_fpm_CONF"
-wait_for_pid () {
-        try=0
-        while test $try -lt 35 ; do
-                case "$1" in
-                        'created')
-                        if [ -f "$2" ] ; then
-                                try=''
-                                break
-                        fi
-                        ;;
-                        'removed')
-                        if [ ! -f "$2" ] ; then
-                                try=''
-                                break
-                        fi
-                        ;;
-                esac
-                echo -n .
-                try=`expr $try + 1`
-                sleep 1
-        done
-}
-case "$1" in
-        start)
-                echo -n "Starting php-fpm "
-                $php_fpm_BIN $php_opts
-                if [ "$?" != 0 ] ; then
-                        echo " failed"
-                        exit 1
-                fi
-                wait_for_pid created $php_fpm_PID
-                if [ -n "$try" ] ; then
-                        echo " failed"
-                        exit 1
-                else
-                        echo " done"
-                fi
-        ;;
-        stop)
-                echo -n "Gracefully shutting down php-fpm "
-                if [ ! -r $php_fpm_PID ] ; then
-                        echo "warning, no pid file found - php-fpm is not running ?"
-                        exit 1
-                fi
-                kill -QUIT `cat $php_fpm_PID`
-                wait_for_pid removed $php_fpm_PID
-                if [ -n "$try" ] ; then
-                        echo " failed. Use force-exit"
-                        exit 1
-                else
-                        echo " done"
-                       echo " done"
-                fi
-        ;;
-        force-quit)
-                echo -n "Terminating php-fpm "
-                if [ ! -r $php_fpm_PID ] ; then
-                        echo "warning, no pid file found - php-fpm is not running ?"
-                        exit 1
-                fi
-                kill -TERM `cat $php_fpm_PID`
-                wait_for_pid removed $php_fpm_PID
-                if [ -n "$try" ] ; then
-                        echo " failed"
-                        exit 1
-                else
-                        echo " done"
-                fi
-        ;;
-        restart)
-                $0 stop
-                $0 start
-        ;;
-        reload)
-                echo -n "Reload service php-fpm "
-                if [ ! -r $php_fpm_PID ] ; then
-                        echo "warning, no pid file found - php-fpm is not running ?"
-                        exit 1
-                fi
-                kill -USR2 `cat $php_fpm_PID`
-                echo " done"
-        ;;
-        *)
-                echo "Usage: $0 {start|stop|force-quit|restart|reload}"
-                exit 1
-        ;;
-esac
-EOF
+COPY init.d.php-7.1-fpm /etc/init.d/php-7.1-fpm
 
 RUN chmod 755 /etc/init.d/php-7.1-fpm \
 	&& insserv php-7.1-fpm \
