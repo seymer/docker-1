@@ -12,6 +12,7 @@ RUN apt-get update \
 		nano \
 		autoconf \
 		unzip \
+		curl \
 		pkg-config -y
 
 RUN mkdir -p /opt/php-7.1 \
@@ -39,12 +40,22 @@ RUN mkdir -p /opt/php-7.1 \
 	&& make \
 	&& make install
 
-RUN cp /usr/local/src/php7-build/php-7.1.0/php.ini-production /opt/php-7.1/lib/php.ini \
-	&& cp /opt/php-7.1/etc/php-fpm.conf.default /opt/php-7.1/etc/php-fpm.conf \
-	&& cp /opt/php-7.1/etc/php-fpm.d/www.conf.default /opt/php-7.1/etc/php-fpm.d/www.conf \
-	&& sed -i '17s/;*//' /opt/php-7.1/etc/php-fpm.conf \
-	&& sed -i '24s/;*//' /opt/php-7.1/etc/php-fpm.conf \
-	&& sed -i '36s/9000*/8999/' /opt/php-7.1/etc/php-fpm.d/www.conf
+RUN apt-get install libmemcached-dev -y \
+	&& mkdir -p /usr/local/src/php7-build/php-memcache \
+	&& cd /usr/local/src/php7-build/php-memcache \
+	&& wget https://github.com/php-memcached-dev/php-memcached/archive/php7.zip \
+	&& unzip php7.zip \
+	&& cd php-memcached-php7 \
+	&& /opt/php-7.1/bin/phpize \
+	&& ./configure --with-php-config=/opt/php-7.1/bin/php-config \
+	&& make \
+	&& make install
+
+RUN cp /usr/local/src/php7-build/php-7.1.0/php.ini-production /opt/php-7.1/lib/php.ini
+
+COPY www.conf /opt/php-7.1/etc/php-fpm.d/www.conf
+
+COPY etc.php-fpm.conf /opt/php-7.1/etc/php-fpm.conf
 
 COPY init.d.php-7.1-fpm /etc/init.d/php-7.1-fpm
 
@@ -65,16 +76,5 @@ COPY php.ini /opt/php-7.1/lib/php.ini
 RUN cd /opt/php-7.1/bin \
 		&&  ./php --version
 
-RUN apt-get install libmemcached-dev -y \
-	&& mkdir -p /usr/local/src/php7-build/php-memcache \
-	&& cd /usr/local/src/php7-build/php-memcache \
-	&& wget https://github.com/php-memcached-dev/php-memcached/archive/php7.zip \
-	&& unzip php7.zip \
-	&& cd php-memcached-php7 \
-	&& /opt/php-7.1/bin/phpize \
-	&& ./configure --with-php-config=/opt/php-7.1/bin/php-config \
-	&& make \
-	&& make install
-
-EXPOSE 8999
+EXPOSE 9000
 # CMD ["php-fpm"]
