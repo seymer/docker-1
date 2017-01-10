@@ -60,8 +60,7 @@ COPY etc.php-fpm.conf /opt/php-7.1/etc/php-fpm.conf
 COPY init.d.php-7.1-fpm /etc/init.d/php-7.1-fpm
 
 RUN chmod 755 /etc/init.d/php-7.1-fpm \
-	&& insserv php-7.1-fpm \
-	&& /etc/init.d/php-7.1-fpm start
+	&& insserv php-7.1-fpm
 
 COPY php-7.1-fpm.service /lib/systemd/system/php-7.1-fpm.service
 
@@ -74,7 +73,11 @@ RUN chmod 644 /lib/systemd/system/php-7.1-fpm.service \
 COPY php.ini /opt/php-7.1/lib/php.ini
 
 RUN cd /opt/php-7.1/bin \
-		&&  ./php --version
+	&& ./php --version \
+	&& ln -sf /opt/php-7.1/bin/php /usr/bin/php \
+	&& ln -sf /opt/php-7.1/sbin/php-fpm /usr/bin/php-fpm
+
+# RUN /etc/init.d/php-7.1-fpm start
 
 EXPOSE 9000
-# CMD ["php-fpm"]
+CMD ["php-fpm"]
