@@ -1,31 +1,15 @@
 version: '2'
 services:
-  # db:
-  #   restart: always
-  #   build: data/mysql
-  #   image: mysql:5.7
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - ./data/log/mysql:/var/log/mysql
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: sqlmestre
-  #     # MYSQL_DATABASE:
-  #     MYSQL_USER: root
-  #     MYSQL_PASSWORD: sqlmestre
   php:
     restart: always
     build: data/php
-    image: debian:jessie
+    image: php:7.1
     ports:
       - "9000:9000"
     expose:
       - 9000
     volumes:
       - ./app:/usr/share/nginx/html
-      # - .data/log/php:/var/log
-    # links:
-      # - db:db
   web:
     restart: always
     build: data/nginx
