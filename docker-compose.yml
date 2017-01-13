@@ -5,8 +5,6 @@ services:
     image: php:7.1
     ports:
       - "9000:9000"
-    # expose:
-    #   - 9000
     privileged: true
     volumes:
       - ./app:/usr/share/nginx/html
@@ -24,7 +22,3 @@ services:
       - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./app:/usr/share/nginx/html
       - ./data/log/nginx:/var/log/nginx
-# networks:
-#   default:
-#     external:
-#       name: myapp
