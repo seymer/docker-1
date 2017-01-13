@@ -13,6 +13,23 @@ RUN apt-get update \
 		autoconf \
 		unzip \
 		curl \
+		libfcgi-dev \
+		libfcgi0ldbl \
+		libjpeg62-turbo-dbg \
+		libmcrypt-dev \
+		libssl-dev \
+		libc-client2007e \
+		libc-client2007e-dev \
+		libxml2-dev \
+		libbz2-dev \
+		libcurl4-openssl-dev \
+		libjpeg-dev \
+		libpng12-dev \
+		libfreetype6-dev \
+		libkrb5-dev \
+		libpq-dev \
+		libxml2-dev \
+		libxslt1-dev -y \
 		pkg-config -y
 
 RUN mkdir -p /opt/php-7.1 \
@@ -21,10 +38,6 @@ RUN mkdir -p /opt/php-7.1 \
 	&& wget -O php.tar.gz http://br1.php.net/get/php-7.1.0.tar.gz/from/this/mirror \
 	&& tar zxvf php.tar.gz \
 	&& cd php-7.1.0/ \
-	&& apt-get install libfcgi-dev libfcgi0ldbl libjpeg62-turbo-dbg libmcrypt-dev \
-		 libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev \
-		 libcurl4-openssl-dev libjpeg-dev libpng12-dev libfreetype6-dev \
-		 libkrb5-dev libpq-dev libxml2-dev libxslt1-dev -y \
 	&& ln -sf /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a \
 	&& ./configure --prefix=/opt/php-7.1 --with-pdo-pgsql --with-zlib-dir \
 		--with-freetype-dir --enable-mbstring --with-libxml-dir=/usr --enable-soap \
@@ -72,12 +85,37 @@ RUN chmod 644 /lib/systemd/system/php-7.1-fpm.service \
 
 COPY php.ini /opt/php-7.1/lib/php.ini
 
-RUN cd /opt/php-7.1/bin \
-	&& ./php --version \
+RUN echo "export PATH=$PATH:/opt/php-7.1/bin" >> ~/.bashrc \
+	&& . ~/.bashrc \
 	&& ln -sf /opt/php-7.1/bin/php /usr/bin/php \
 	&& ln -sf /opt/php-7.1/sbin/php-fpm /usr/bin/php-fpm
 
-# RUN /etc/init.d/php-7.1-fpm start
+RUN apt-get install re2c file apt-utils -y
+
+RUN mkdir -p /opt/libssh2/ \
+	&& cd /usr/local/src/ \
+	&& wget -O libssh2.tar.gz https://libssh2.org/download/libssh2-1.8.0.tar.gz \
+	&& tar zxvf libssh2.tar.gz \
+	&& cd libssh2-1.8.0/ \
+	&& ./configure --prefix=/opt/libssh2/ \
+	&& make \
+	&& make install
+
+RUN mkdir -p /opt/ssh2/ \
+	&& cd /usr/local/src/ \
+	&& wget -O ssh2.tgz https://pecl.php.net/get/ssh2-1.0.tgz \
+	&& tar zxvf ssh2.tgz \
+	&& cd ssh2-1.0/ \
+	&& /opt/php-7.1/bin/phpize \
+	&& ./configure \
+		--with-php-config=/opt/php-7.1/bin/php-config \
+		--prefix=/opt/ssh2/ \
+		--with-ssh2=/opt/libssh2/ \
+	&& make \
+	&& make install
+
+# RUN php -v \
+	# && /etc/init.d/php-7.1-fpm start
 
 EXPOSE 9000
 CMD ["php-fpm"]

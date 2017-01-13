@@ -1,7 +1,6 @@
 version: '2'
 services:
   php:
-    # restart: always
     build: data/php
     image: php:7.1
     ports:
