@@ -9,13 +9,13 @@ services:
     volumes:
       - ./app:/var/www/
     tty: true
-  # composer:
-  #   privileged: true
-  #   build: data/composer
-  #   image: composer
-    # volumes:
-    #   - ./app:/app
-    #   - /media/Data/Softwares/Desenvolvimento/composer:/composer
+  composer:
+    privileged: true
+    build: data/composer
+    image: composer
+    volumes:
+      - ./app:/app
+      - /media/Data/Softwares/Desenvolvimento/composer:/composer
   web:
     restart: always
     build: data/nginx
