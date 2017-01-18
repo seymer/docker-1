@@ -1,13 +1,14 @@
 version: '2'
 services:
   php:
-    build: data/php
-    image: php:7.1
+    build: data/php-5.6
+    image: php:5.6
     ports:
       - "9000:9000"
     privileged: true
     volumes:
       - ./app:/usr/share/nginx/html
+    tty: true
   web:
     restart: always
     build: data/nginx
