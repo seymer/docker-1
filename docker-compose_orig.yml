@@ -1,0 +1,26 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: sqlmestre
+      MYSQL_DATABASE: -------
+      MYSQL_USER: root
+      MYSQL_PASSWORD: sqlmestre
+  web:
+    depends_on:
+      - db
+    image: webdevops/php-nginx:debian-9
+    links:
+      - db
+    ports:
+      - "8000:80"
+    volumes:
+      - "/home/maycon/web/:/var/www/"
+      - "./.data/web/opt/docker/etc/php:/opt/docker/etc/php"
+    restart: always
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www
