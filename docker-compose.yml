@@ -13,8 +13,13 @@ services:
     privileged: true
     build: data/composer
     image: composer
+    links:
+      - php
+    volumes_from:
+      - php
+    working_dir: /composer
     volumes:
-      - /var/www/:/app
+      - /var/www/:/var/www/
       - /media/Data/Softwares/Desenvolvimento/composer:/composer
   web:
     restart: always

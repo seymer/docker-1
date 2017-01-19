@@ -1,1 +1,1 @@
-FROM composer:latest
+FROM composer/composer:latest
