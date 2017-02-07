@@ -33,4 +33,4 @@ services:
     # environment:
       # - JAVA_OPTS="java.util.logging.config.file=/var/jenkins_home/log.properties"
     volumes:
-      - ./data/log/:/var/jenkins_home/log.properties
+      - /var/lib/jenkins:/var/jenkins_home
