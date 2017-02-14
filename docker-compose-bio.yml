@@ -8,6 +8,7 @@ services:
     privileged: true
     volumes:
       - /var/www/:/var/www/
+      - /var/lib/jenkins:/var/jenkins_home
     tty: true
   web1:
     restart: always
@@ -24,6 +25,25 @@ services:
       - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
       - /var/www/:/var/www/
       - ./data/log/nginx:/var/log/nginx
+  composer:
+    privileged: true
+#    build: data/composer
+    image: composer
+    links:
+      - php
+    volumes_from:
+      - php
+    working_dir: /composer
+    volumes:
+      - /var/www/:/var/www/
+      - /usr/lib/composer/:/composer
+  phpunit:
+    image: phpunit/phpunit:5.4.0
+    links:
+      - php
+    volumes:
+      - /var/www/:/var/www/
+      - /var/lib/jenkins:/var/jenkins_home
   ci:
     build: data/jenkins
     image: jenkins

@@ -1,0 +1,10 @@
+phpunit () {
+   tty=
+   tty -s && tty=--tty
+   docker run \
+         --interactive \
+         -v \
+        $(pwd):/app --rm \
+        phpunit/phpunit "$@"
+}
+
