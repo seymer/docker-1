@@ -1,4 +1,2 @@
 #!/bin/bash
-cat data/composer/bashrc >> ~/.bashrc
-source ~/.bashrc
-cp ./data/phpunit/phpunit /usr/local/bin/phpunit
+cp ./data/bin/* /usr/local/bin/
