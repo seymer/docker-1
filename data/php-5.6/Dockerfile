@@ -30,3 +30,6 @@ RUN docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-install -j$(nproc) gd
 
 COPY php.ini /usr/local/etc/php/
+
+
+COPY phpunit /usr/local/bin/phpunit

@@ -1,2 +1,0 @@
-#!/bin/bash
-docker run -v /var/www/:/var/www/ --rm phpunit/phpunit:5.4.0 "$@"
