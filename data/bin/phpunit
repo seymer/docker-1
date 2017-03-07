@@ -1,3 +1,0 @@
-#!/bin/bash
-docker run -v $(pwd):$(pwd) -v /var/www:/var/www --rm php:5.6 `basename "$0"` "$@"
-
