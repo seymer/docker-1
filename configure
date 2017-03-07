@@ -3,10 +3,9 @@
 shopt -s globstar
 read -p "PHP version:" PHP_VERSION;
 
-FILES=('composer' 'pecl' 'phar' 'php-config' 'phpize' 'phpunit')
+FILES=('pecl' 'phar' 'php-config' 'phpize' 'phpunit')
 STR_CALL_DOCKER_PREFIX='#!/bin/bash
-docker run -ti -v $(pwd):$(pwd) --rm --user $(id -u):$(id -g) '
-#--volume /etc/passwd:/etc/passwd:ro --volume /etc/group:/etc/group:ro
+docker run -ti -v $(pwd):$(pwd) --rm --user $(id -u):$(id -g) --privileged '
 STR_CALL_DOCKER_SUFIX="php:${PHP_VERSION}"
 
 for i in ${FILES[@]}; do
@@ -20,6 +19,17 @@ for i in ${FILES[@]}; do
 done;
 
 echo "#!/bin/bash
-docker run -ti -v $(pwd):/var/www/html --rm --user $(id -u):$(id -g) php:${PHP_VERSION} php "'"$@"' \
+docker run -ti -v "'$(pwd)'":/var/www/ -w /var/www/ --rm --user "'$(id -u):$(id -g)'" \
+	--privileged php:${PHP_VERSION}-cli php "'"$@"' \
 	> /usr/local/bin/php
-
+echo "#!/bin/bash
+docker run \
+    $tty \
+    --interactive \
+    --rm \
+	--privileged \
+    --user "'$(id -u)'":"'$(id -g)'" \
+    --volume /etc/passwd:/etc/passwd:ro \
+    --volume /etc/group:/etc/group:ro \
+    --volume "'$(pwd)'":/app \
+    composer:latest "'"$@"' > /usr/local/bin/composer
