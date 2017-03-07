@@ -1,2 +1,25 @@
 #!/bin/bash
-cp ./data/bin/* /usr/local/bin/
+
+shopt -s globstar
+read -p "PHP version:" PHP_VERSION;
+
+FILES=('composer' 'pecl' 'phar' 'php-config' 'phpize' 'phpunit')
+STR_CALL_DOCKER_PREFIX='#!/bin/bash
+docker run -ti -v $(pwd):$(pwd) --rm --user $(id -u):$(id -g) '
+#--volume /etc/passwd:/etc/passwd:ro --volume /etc/group:/etc/group:ro
+STR_CALL_DOCKER_SUFIX="php:${PHP_VERSION}"
+
+for i in ${FILES[@]}; do
+
+	PARAMS=' '${i}' "$@"'
+	echo "Creating ${i} link in /usr/local/bin/${i}"
+	echo "${STR_CALL_DOCKER_PREFIX}${STR_CALL_DOCKER_SUFIX}${PARAMS}" > /usr/local/bin/${i}
+	chmod +x /usr/local/bin/${i}
+	echo ''
+
+done;
+
+echo "#!/bin/bash
+docker run -ti -v $(pwd):/var/www/html --rm --user $(id -u):$(id -g) php:${PHP_VERSION} php "'"$@"' \
+	> /usr/local/bin/php
+
