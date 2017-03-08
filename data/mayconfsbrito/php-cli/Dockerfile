@@ -1,4 +1,5 @@
-FROM php:7.1-fpm
+FROM php:7.1-cli
+
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -11,9 +12,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN ln -sf /usr/lib/x86_64-linux-gnu/libsybdb.a /usr/lib/
 
-RUN pecl install ssh2-1.0 \
-	&& pecl install xdebug-2.5.1 \
-	&& docker-php-ext-enable xdebug
 
 RUN docker-php-ext-install -j$(nproc) iconv \
     	json \
@@ -29,12 +27,11 @@ RUN docker-php-ext-install -j$(nproc) iconv \
     	--with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-COPY php.ini /usr/local/etc/php/
+#COPY php.ini /usr/local/etc/php/
 
-#RUN cd /usr/lib/ \
-#	&& wget https://phar.phpunit.de/phpunit.phar
-#
-#RUN mv /usr/lib/phpunit.phar /usr/local/bin/phpunit \
-#	&& chmod +x /usr/local/bin/phpunit \
-#	&& phpunit --version
+RUN cd /usr/lib/ \
+	&& wget https://phar.phpunit.de/phpunit.phar
 
+RUN mv /usr/lib/phpunit.phar /usr/local/bin/phpunit \
+	&& chmod +x /usr/local/bin/phpunit \
+	&& phpunit --version

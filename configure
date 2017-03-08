@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ "$(id -u)" != "0" ]; then
+    echo""
+    echo "Esse script deve ser executado com \"sudo\" ou como usuário \"root\"" 1>&2
+    echo""
+   	exit 1
+fi
+
 
 shopt -s globstar
 read -p "PHP version:" PHP_VERSION;
@@ -19,17 +26,22 @@ for i in ${FILES[@]}; do
 done;
 
 echo "#!/bin/bash
-docker run -ti -v "'$(pwd)'":/var/www/ -w /var/www/ --rm --user "'$(id -u):$(id -g)'" \
-	--privileged php:${PHP_VERSION}-cli php "'"$@"' \
+docker run -ti -v "'$(pwd)'":"'$(pwd)'" -w "'$(pwd)'" --rm --user "'$(id -u):$(id -g)'" \
+	--privileged mayconfsbrito/php-cli:${PHP_VERSION} php "'"$@"' \
 	> /usr/local/bin/php
 echo "#!/bin/bash
 docker run \
-    $tty \
     --interactive \
     --rm \
 	--privileged \
     --user "'$(id -u)'":"'$(id -g)'" \
     --volume /etc/passwd:/etc/passwd:ro \
     --volume /etc/group:/etc/group:ro \
-    --volume "'$(pwd)'":/app \
-    composer:latest "'"$@"' > /usr/local/bin/composer
+    --volume /home/maycon/Softwares/Desenvolvimento/composer:/composer \
+    --volume "'$(pwd)'":"'$(pwd)'" \
+    -w "'$(pwd)'" \
+    composer:latest "'"$@"' > /usr/bin/composer
+
+echo "pwd: `pwd`"
+echo "/run.sh" > /etc/init.d/docker-composer-run
+chmod +x /etc/init.d/docker-composer-run
