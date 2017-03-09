@@ -51,3 +51,7 @@ docker run \
 
 echo "/run.sh" > /etc/init.d/docker-composer-run
 chmod +x /etc/init.d/docker-composer-run
+
+if [ ! -d "/var/lib/mysql" ]; then
+	mkdir /var/lib/mysql
+fi
