@@ -26,9 +26,16 @@ for i in ${FILES[@]}; do
 done;
 
 echo "#!/bin/bash
-docker run -ti -v "'$(pwd)'":"'$(pwd)'" -w "'$(pwd)'" --rm --user "'$(id -u):$(id -g)'" \
-	--privileged mayconfsbrito/php-cli:${PHP_VERSION} php "'"$@"' \
-	> /usr/local/bin/php
+docker run \
+	-ti \
+	-v "'$(pwd)'":"'$(pwd)'" \
+	-w "'$(pwd)'" \
+	--rm \
+	-p 8001:8000 \
+	--user "'$(id -u):$(id -g)'" \
+	--privileged \
+	mayconfsbrito/php-cli:${PHP_VERSION} \
+	php "'"$@"' > /usr/local/bin/php
 echo "#!/bin/bash
 docker run \
     --interactive \
@@ -42,6 +49,5 @@ docker run \
     -w "'$(pwd)'" \
     composer:latest "'"$@"' > /usr/bin/composer
 
-echo "pwd: `pwd`"
 echo "/run.sh" > /etc/init.d/docker-composer-run
 chmod +x /etc/init.d/docker-composer-run
