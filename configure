@@ -55,3 +55,23 @@ chmod +x /etc/init.d/docker-composer-run
 if [ ! -d "/var/lib/mysql" ]; then
 	mkdir /var/lib/mysql
 fi
+
+# Run the script of ENVIRONMENT VARS
+read -p "nome do usuario do sistema: " USER_SYSTEM;
+read -p "nome do usuario (MySQL): " USER_MYSQL;
+read -p "nome do banco de dados (MySQL): " DATABASE_NAME;
+read -sp "senha do banco de dados mysql (${USER_MYSQL}): " PASS_MYSQL;
+echo "";
+read -sp "senha do banco de dados mysql (root): " PASS_MYSQL_ROOT;
+echo "";
+
+ENV_FILE=/etc/profile.d/env_docker
+touch ${ENV_FILE}
+echo "
+export USER_SYSTEM='${USER_SYSTEM}'
+export MYSQL_USER='${USER_MYSQL}'
+export MYSQL_DATABASE_NAME='${DATABASE_NAME}'
+export MYSQL_PASSWORD='${PASS_MYSQL}'
+export MYSQL_PASSWORD_ROOT='${PASS_MYSQL_ROOT}'
+" > ${ENV_FILE}
+source ${ENV_FILE}
