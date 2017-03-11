@@ -34,6 +34,8 @@ docker run \
 	-p 8001:8000 \
 	--user "'$(id -u):$(id -g)'" \
 	--privileged \
+    --link docker_mysql_1:mysql \
+    --network docker_myapp \
 	mayconfsbrito/php-cli:${PHP_VERSION} \
 	php "'"$@"' > /usr/local/bin/php
 echo "#!/bin/bash
