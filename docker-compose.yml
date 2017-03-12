@@ -9,7 +9,7 @@ services:
       - mysql
     privileged: true
     volumes:
-      - /var/www/:/var/www/
+      - /var/www/:/var/www/html/
     tty: true
     networks:
       - myapp
