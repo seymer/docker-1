@@ -13,7 +13,7 @@ read -p "PHP version:" PHP_VERSION;
 FILES=('pecl' 'phar' 'php-config' 'phpize' 'phpunit')
 STR_CALL_DOCKER_PREFIX='#!/bin/bash
 docker run -ti -v $(pwd):$(pwd) --rm --user $(id -u):$(id -g) --privileged '
-STR_CALL_DOCKER_SUFIX="php:${PHP_VERSION}"
+STR_CALL_DOCKER_SUFIX="mayconfsbrito/php-cli:${PHP_VERSION}"
 
 for i in ${FILES[@]}; do
 
