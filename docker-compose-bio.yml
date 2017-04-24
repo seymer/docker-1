@@ -1,28 +1,28 @@
 version: '2'
 services:
-  php:
-    build: data/php-5.6
-    image: php:5.6
-    ports:
-      - "9000:9000"
-    privileged: true
-    volumes:
-      - /var/www/:/var/www/
-      - /var/lib/jenkins:/var/jenkins_home
-    tty: true
-  web:
-    build: data/nginx
-    image: nginx:1.10.2
-    ports:
-      - "80:80"
-    links:
-      - php
-    privileged: true
-    volumes:
-      - ./data/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
-      - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /var/www/:/var/www/
-      - ./data/log/nginx:/var/log/nginx
+  # php:
+  #   build: data/php-5.6
+  #   image: php:5.6
+  #   ports:
+  #     - "9000:9000"
+  #   privileged: true
+  #   volumes:
+  #     - /var/www/:/var/www/
+  #     - /var/lib/jenkins:/var/jenkins_home
+  #   tty: true
+  # web:
+  #   build: data/nginx
+  #   image: nginx:1.10.2
+  #   ports:
+  #     - "80:80"
+  #   links:
+  #     - php
+  #   privileged: true
+  #   volumes:
+  #     - ./data/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
+  #     - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - /var/www/:/var/www/
+  #     - ./data/log/nginx:/var/log/nginx
   mysql:
     image: mysql:5.6
     privileged: true

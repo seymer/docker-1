@@ -1,0 +1,28 @@
+2017/04/20 22:25:58 [error] 7#7: *1 open() "/var/www/sibe/teste" failed (2: No such file or directory), client: 172.18.0.1, server: localhost, request: "GET /sibe/teste HTTP/1.1", host: "127.0.0.1"
+2017/04/20 22:30:16 [error] 7#7: *11 open() "/var/www/sibe/teste" failed (2: No such file or directory), client: 172.18.0.1, server: localhost, request: "GET /sibe/teste HTTP/1.1", host: "127.0.0.1"
+2017/04/24 12:14:13 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:14 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:15 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:19 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:20 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:22 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:26 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:34 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:14:47 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:15:18 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:16:17 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:17:17 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:18:18 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:19:18 [emerg] 1#1: host not found in upstream "php" in /etc/nginx/conf.d/default.conf:34
+2017/04/24 12:30:02 [error] 7#7: *7 open() "/var/www/sibe/teste" failed (2: No such file or directory), client: 172.18.0.1, server: localhost, request: "GET /sibe/teste HTTP/1.1", host: "localhost"
+2017/04/24 12:31:43 [error] 7#7: *10 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Class 'ExtendedPdo' not found in /var/www/teste.php on line 3" while reading response header from upstream, client: 172.18.0.1, server: localhost, request: "GET /teste.php HTTP/1.1", upstream: "fastcgi://172.18.0.2:9000", host: "localhost", referrer: "http://localhost/"
+2017/04/24 12:31:52 [error] 7#7: *10 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Using $this when not in object context in /var/www/teste.php on line 3" while reading response header from upstream, client: 172.18.0.1, server: localhost, request: "GET /teste.php HTTP/1.1", upstream: "fastcgi://172.18.0.2:9000", host: "localhost", referrer: "http://localhost/"
+2017/04/24 12:32:30 [error] 7#7: *10 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Using $this when not in object context in /var/www/teste.php on line 3" while reading response header from upstream, client: 172.18.0.1, server: localhost, request: "GET /teste.php HTTP/1.1", upstream: "fastcgi://172.18.0.2:9000", host: "localhost", referrer: "http://localhost/"
+2017/04/24 12:38:13 [error] 7#7: *47 open() "/var/www/fwsibe/acesso/sair" failed (2: No such file or directory), client: 172.18.0.1, server: localhost, request: "GET /fwsibe/acesso/sair HTTP/1.1", host: "localhost", referrer: "http://localhost/fwsibe/"
+2017/04/24 12:38:21 [error] 7#7: *47 open() "/var/www/fwsibe/acesso" failed (2: No such file or directory), client: 172.18.0.1, server: localhost, request: "GET /fwsibe/acesso HTTP/1.1", host: "localhost", referrer: "http://localhost/fwsibe/"
+2017/04/24 12:38:46 [error] 7#7: *56 open() "/var/www/fwsibe/acesso" failed (2: No such file or directory), client: 192.168.101.151, server: localhost, request: "GET /fwsibe/acesso HTTP/1.1", host: "192.168.101.151", referrer: "http://192.168.101.151/fwsibe/"
+2017/04/24 12:38:46 [error] 7#7: *56 open() "/var/www/favicon.ico" failed (2: No such file or directory), client: 192.168.101.151, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "192.168.101.151", referrer: "http://192.168.101.151/fwsibe/acesso"
+2017/04/24 12:38:46 [error] 7#7: *56 open() "/var/www/favicon.ico" failed (2: No such file or directory), client: 192.168.101.151, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "192.168.101.151", referrer: "http://192.168.101.151/fwsibe/acesso"
+2017/04/24 12:38:58 [error] 7#7: *56 open() "/var/www/fwsibe/index.php/acesso" failed (20: Not a directory), client: 192.168.101.151, server: localhost, request: "GET /fwsibe/index.php/acesso HTTP/1.1", host: "192.168.101.151"
+2017/04/24 12:39:02 [error] 7#7: *56 open() "/var/www/fwsibe/acesso" failed (2: No such file or directory), client: 192.168.101.151, server: localhost, request: "GET /fwsibe/acesso HTTP/1.1", host: "192.168.101.151", referrer: "http://192.168.101.151/fwsibe/"
+2017/04/24 12:39:09 [error] 7#7: *56 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Call to undefined function mysql_escape_string() in /var/www/bioextratus/sessao/autenticacaopgm.php on line 31" while reading response header from upstream, client: 192.168.101.151, server: localhost, request: "POST /bioextratus/sessao/autenticacaopgm.php HTTP/1.1", upstream: "fastcgi://172.18.0.2:9000", host: "192.168.101.151", referrer: "http://192.168.101.151/bioextratus/"
