@@ -60,6 +60,7 @@ fi
 
 # Run the script of ENVIRONMENT VARS
 read -p "nome do usuario do sistema: " USER_SYSTEM;
+read -p "caminho completo do diretorio de desenvolvimento: " ENVIRONMENT_PATH;
 read -p "nome do usuario (MySQL): " USER_MYSQL;
 read -p "nome do banco de dados (MySQL): " DATABASE_NAME;
 read -sp "senha do banco de dados mysql (${USER_MYSQL}): " PASS_MYSQL;
@@ -71,6 +72,7 @@ ENV_FILE=/etc/profile.d/env_docker
 touch ${ENV_FILE}
 echo "
 export USER_SYSTEM='${USER_SYSTEM}'
+export ENVIRONMENT_PATH='${ENVIRONMENT_PATH}'
 export MYSQL_USER='${USER_MYSQL}'
 export MYSQL_DATABASE_NAME='${DATABASE_NAME}'
 export MYSQL_PASSWORD='${PASS_MYSQL}'
