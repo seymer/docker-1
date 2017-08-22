@@ -54,8 +54,8 @@ docker run \
 echo "/run.sh" > /etc/init.d/docker-composer-run
 chmod +x /etc/init.d/docker-composer-run
 
-if [ ! -d "/var/lib/mysql" ]; then
-	mkdir /var/lib/mysql
+if [ ! -d "/usr/local/lib/mysql/" ]; then
+	mkdir -p /usr/local/lib/mysql/
 fi
 
 # Run the script of ENVIRONMENT VARS
