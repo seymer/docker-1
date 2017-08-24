@@ -9,7 +9,7 @@ services:
       - mysql
     privileged: true
     volumes:
-      - /home/maycon/web:/var/www/
+      - ${ENVIRONMENT_PATH}:/var/www/
     tty: true
     env_file:
       - variables.env
@@ -24,7 +24,7 @@ services:
       - php
     working_dir: /composer
     volumes:
-      - /home/maycon/web:/var/www/
+      - ${ENVIRONMENT_PATH}:/var/www/
       - /usr/lib/composer/:/composer
     env_file:
       - variables.env
@@ -59,10 +59,10 @@ services:
     env_file:
       - variables.env
     environment:
-      MYSQL_ROOT_PASSWORD: sqlmestre
-      MYSQL_DATABASE: root
-      MYSQL_USER: maycon
-      MYSQL_PASSWORD: sqlmestre
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD_ROOT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - myapp
 networks:
