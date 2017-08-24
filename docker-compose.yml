@@ -9,7 +9,7 @@ services:
       - mysql
     privileged: true
     volumes:
-      - ${ENVIRONMENT_PATH}:/var/www/
+      - /home/maycon/web/:/var/www/
     tty: true
     networks:
       - myapp
@@ -22,7 +22,7 @@ services:
       - php
     working_dir: /composer
     volumes:
-      - ${ENVIRONMENT_PATH}:/var/www/
+      - /home/maycon/web/:/var/www/
       - /usr/lib/composer/:/composer
     networks:
       - myapp
@@ -39,7 +39,7 @@ services:
     volumes:
       - ./data/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
       - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ${ENVIRONMENT_PATH}:/var/www/
+      - /home/maycon/web/:/var/www/
       - ./data/log/nginx:/var/log/nginx
     networks:
       - myapp
