@@ -13,12 +13,14 @@ RUN ln -sf /usr/lib/x86_64-linux-gnu/libsybdb.a /usr/lib/
 RUN pecl install ssh2-0.13 \
 	&& docker-php-ext-enable ssh2
 
-RUN docker-php-ext-install -j$(nproc) iconv \
+RUN docker-php-ext-install -j$(nproc) \
+        iconv \
     	json \
     	mbstring \
     	mcrypt \
     	mssql \
     	mysqli \
+        mysql \
     	pdo \
     	pdo_dblib \
     	pdo_mysql \
@@ -27,6 +29,7 @@ RUN docker-php-ext-install -j$(nproc) iconv \
     	--with-freetype-dir=/usr/include/ \
     	--with-jpeg-dir=/usr/include/ \
     	--with-mssql \
+        --with-mysqli \
     && docker-php-ext-install -j$(nproc) gd
 
 COPY php.ini /usr/local/etc/php/
