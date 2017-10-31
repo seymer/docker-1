@@ -13,7 +13,7 @@ read -p "PHP version:" PHP_VERSION;
 FILES=('pecl' 'phar' 'php-config' 'phpize' 'phpunit')
 STR_CALL_DOCKER_PREFIX='#!/bin/bash
 docker run -ti -v $(pwd):$(pwd) --rm --user $(id -u):$(id -g) --privileged '
-STR_CALL_DOCKER_SUFIX="php:${PHP_VERSION}"
+STR_CALL_DOCKER_SUFIX="mayconfsbrito/php-cli:${PHP_VERSION}"
 
 for i in ${FILES[@]}; do
 
@@ -60,6 +60,7 @@ fi
 
 # Run the script of ENVIRONMENT VARS
 read -p "nome do usuario do sistema: " USER_SYSTEM;
+read -p "caminho completo do diretorio de desenvolvimento: " ENVIRONMENT_PATH;
 read -p "nome do usuario (MySQL): " USER_MYSQL;
 read -p "nome do banco de dados (MySQL): " DATABASE_NAME;
 read -sp "senha do banco de dados mysql (${USER_MYSQL}): " PASS_MYSQL;
@@ -70,11 +71,11 @@ echo "";
 ENV_FILE=/etc/profile.d/env_docker
 touch ${ENV_FILE}
 echo "
-USER_SYSTEM=${USER_SYSTEM}
-MYSQL_USER=${USER_MYSQL}
-MYSQL_DATABASE_NAME=${DATABASE_NAME}
-MYSQL_PASSWORD=${PASS_MYSQL}
-MYSQL_ROOT_PASSWORD=${PASS_MYSQL_ROOT}
-PHP_VERSION=${PHP_VERSION}
+export USER_SYSTEM='${USER_SYSTEM}'
+export ENVIRONMENT_PATH='${ENVIRONMENT_PATH}'
+export MYSQL_USER='${USER_MYSQL}'
+export MYSQL_DATABASE_NAME='${DATABASE_NAME}'
+export MYSQL_PASSWORD='${PASS_MYSQL}'
+export MYSQL_PASSWORD_ROOT='${PASS_MYSQL_ROOT}'
 " > ${ENV_FILE}
 source ${ENV_FILE}
